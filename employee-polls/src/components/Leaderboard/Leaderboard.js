@@ -1,11 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 Leaderboard.propTypes = {
 
 };
 
 function Leaderboard(props) {
+    const { users, userIds } = props;
+    console.log('users======', users)
+    console.log('userIds======', userIds)
+
+    const addNumbsToUser = (user, numQanswered, numQasked, sum) => {
+        return {
+            ...user,
+            numQanswered,
+            numQasked,
+            sum
+        };
+    }
+
+    let usersArr = [];
+    for (let i = 0; i < userIds.length; i++) {
+        const user = users[userIds[i]];
+
+        const { questions, answers } = user;
+        const numQasked = questions.length;
+        const numQanswered = Object.keys(answers).length;
+        const sum = numQanswered + numQasked;
+
+        const userWithNums = addNumbsToUser(user, numQanswered, numQasked, sum);
+
+        usersArr.push(userWithNums)
+    }
+
+    const sortedArr = usersArr.sort((a, b) => b.sum - a.sum)
+
+
     return (
         <div>
             <h1 className='font-bold mt-0 text-3xl text-center'>Leaderboard</h1>
@@ -23,38 +54,19 @@ function Leaderboard(props) {
                 </thead>
 
                 <tbody className='bg-white'>
-                    <tr>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>
-                            <span className='font-bold'>Sarah Edo</span><br />
-                            <span className='text-sm text-slate-500'>sarahedo</span>
-                        </td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>4</td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>2</td>
-                    </tr>
-                    <tr>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>
-                            <span className='font-bold'>Mike Tsamis</span><br />
-                            <span className='text-sm text-slate-500'>mtsamis</span>
-                        </td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>3</td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>3</td>
-                    </tr>
-                    <tr>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>
-                            <span className='font-bold'>Tyler McGinnis</span><br />
-                            <span className='text-sm text-slate-500'>tylermcginnis</span>
-                        </td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>2</td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>2</td>
-                    </tr>
-                    <tr>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>
-                            <span className='font-bold'>Zenobia Oshikanlu</span><br />
-                            <span className='text-sm text-slate-500'>zoshikanlu</span>
-                        </td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>1</td>
-                        <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>0</td>
-                    </tr>
+                    {
+                        usersArr.map((user) => (
+                            <tr key={user.id}>
+                                <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>
+                                    <span className='font-bold'>{user.name}</span><br />
+                                    <span className='text-sm text-slate-500'>{user.id}</span>
+                                </td>
+                                <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>{user.numQanswered}</td>
+                                <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>{user.numQasked}</td>
+                            </tr>
+                        ))
+                    }
+
                 </tbody>
             </table>
         </div>
@@ -62,4 +74,10 @@ function Leaderboard(props) {
     );
 }
 
-export default Leaderboard;
+const mapStateToProps = ({ users }) => {
+    const userIds = Object.keys(users)
+
+    return { users, userIds };
+}
+
+export default connect(mapStateToProps)(Leaderboard);

@@ -9,8 +9,8 @@ const PrivateRoute = ({ children, isLoggedIn }) => {
     return isLoggedIn ? children : <Navigate to={`/login?redirectTo=${redirectUrl}`} />;
 };
 
-const mapStateToProps = ({ authedUser }) => ({
-    isLoggedIn: !!authedUser,
+const mapStateToProps = ({ authSliceUser }) => ({
+    isLoggedIn: !!authSliceUser,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

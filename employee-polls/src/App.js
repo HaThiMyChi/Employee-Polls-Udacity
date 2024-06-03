@@ -14,11 +14,10 @@ import NavBar from './components/NavBar/NavBar';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 function App(props) {
-  console.log('props app', props)
   useEffect(() => {
     props.dispatch(handleInitialData());
   }, [props]);
-  console.log('props app===', props)
+
   return (
     <div className="container mx-auto py-4">
       {props.isLoggedIn && <NavBar />}
