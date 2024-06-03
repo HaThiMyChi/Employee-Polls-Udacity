@@ -15,14 +15,18 @@ export function signoutAuthSliceUser() {
 
 export function handleLoginUser(username, password) {
     return (dispatch, getState) => {
-        console.log('dispatch', dispatch)
-        console.log('getState', getState)
         const { users } = getState();
 
         const user = Object.values(users).find((user) => user.id === username && user.password === password);
 
-        if (!user) {
+        if (!!user) {
             return dispatch(setAuthSliceUser(user));
         }
-    }
+    };
+}
+
+export function handleLogoutAuthedUser() {
+    return (dispatch) => {
+        return dispatch(signoutAuthSliceUser());
+    };
 }
