@@ -9,9 +9,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import StickNote from './components/StickNote/StickNote';
 import { handleInitialData } from "./actions/initialData";
 import { connect } from "react-redux";
-import { LoginUrl, RootPathUrl, LeaderBoardUrl } from './constant/path';
+import { LoginUrl, RootPathUrl, LeaderBoardUrl, Error404 } from './constant/path';
 import NavBar from './components/NavBar/NavBar';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import PageNotFound from './components/PageNotFound/PageNotFound';
 
 function App(props) {
   useEffect(() => {
@@ -25,6 +26,7 @@ function App(props) {
         <Route path={LoginUrl} exact element={<Login />} />
         <Route path={RootPathUrl} exact element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path={LeaderBoardUrl} exact element={<PrivateRoute><Leaderboard /></PrivateRoute>} />
+        <Route path={Error404} exact element={<PageNotFound />} />
         {/* <Route path="/new" exact element={<NewPoll />} />
         <Route path="/pollpage" exact element={<PollPage />} />
         <Route path="/leaderboard" exact element={<Leaderboard />} />

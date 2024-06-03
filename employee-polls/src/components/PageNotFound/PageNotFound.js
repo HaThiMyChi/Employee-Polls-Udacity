@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-NotFound.propTypes = {
+PageNotFound.propTypes = {
 
 };
 
-function NotFound(props) {
+function PageNotFound(props) {
     return (
         <div>
             <h1 className='text-3xl font-bold mt-9'>404 - Page Not Found</h1>
@@ -14,4 +15,5 @@ function NotFound(props) {
     );
 }
 
-export default NotFound;
+const mapStateToProps = () => ({});
+export default connect(mapStateToProps)(PageNotFound);
