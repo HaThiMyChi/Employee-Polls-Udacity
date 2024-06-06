@@ -9,11 +9,11 @@ NavBar.propTypes = {
     users: PropTypes.object.isRequired,
 };
 
-function NavBar(props) {
+function NavBar({ dispatch, authSliceUser, users }) {
 
     const handleLogout = (e) => {
         e.preventDefault();
-        props.dispatch(handleLogoutAuthedUser());
+        dispatch(handleLogoutAuthedUser());
     };
 
     return (
@@ -38,10 +38,10 @@ function NavBar(props) {
             </Link>
             <span
                 className='flex items-center font-medium px-3 py-2 text-slate-700'
-                data-testid="user-information"
+                data-testid="user-information-nav"
             >
-                <img src={props.authSliceUser.avatarURL} alt="User Avatar" className="w-8 h-8 rounded-full mr-2" />
-                {props.authSliceUser.name}
+                <img src={authSliceUser.avatarURL} alt="User Avatar" className="w-8 h-8 rounded-full mr-2" />
+                {authSliceUser.name}
             </span>
             <button className='font-medium px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900' onClick={handleLogout}>
                 Logout
@@ -52,7 +52,6 @@ function NavBar(props) {
 
 const mapStateToProps = ({ authSliceUser, users }) => ({
     authSliceUser,
-    authedUserId: authSliceUser.id,
     users,
 });
 

@@ -27,24 +27,22 @@ export function addAnswerQuestion(author, qid, answer) {
 
 export function handleAddQuestion(firstOption, secondOption) {
     return (dispatch, getState) => {
-        const { authedUser } = getState();
-        return saveQuestion(firstOption, secondOption, authedUser)
+        const { authSliceUser } = getState();
+        return saveQuestion(firstOption, secondOption, authSliceUser.id)
             .then((question) => {
                 dispatch(addQuestion(question));
-                dispatch(addQuestionUser(question))
+                dispatch(addQuestionUser(question));
             })
     };
 }
 
 export function handleAddAnswer(questionId, answer) {
     return (dispatch, getState) => {
-        const { authedUser } = getState();
-        console.log('authedUser add answer', authedUser)
-        return saveQuestionAnswer(authedUser.id, questionId, answer)
+        const { authSliceUser } = getState();
+        return saveQuestionAnswer(authSliceUser.id, questionId, answer)
             .then(() => {
-                dispatch(addAnswerQuestion(authedUser.id, questionId, answer));
-                console.log('add answer question', dispatch(addAnswerQuestion(authedUser.id, questionId, answer)))
-                dispatch(addAnswerUser(authedUser.id, questionId, answer));
+                dispatch(addAnswerQuestion(authSliceUser.id, questionId, answer));
+                dispatch(addAnswerUser(authSliceUser.id, questionId, answer));
             });
     };
 }

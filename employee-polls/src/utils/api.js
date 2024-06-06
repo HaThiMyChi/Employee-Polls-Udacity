@@ -10,10 +10,14 @@ export function getUserQuestionData() {
     }));
 }
 
-export function saveQuestion(info) {
-    return _saveQuestion(info);
+export function saveQuestion(optionOneText, optionTwoText, author) {
+    return _saveQuestion({ optionOneText, optionTwoText, author });
 }
 
-export function saveQuestionAnswer(info) {
-    return _saveQuestionAnswer(info);
+export function saveQuestionAnswer(authedUserId, qid, answer) {
+    return _saveQuestionAnswer({
+        authedUser: authedUserId,
+        qid,
+        answer
+    });
 }

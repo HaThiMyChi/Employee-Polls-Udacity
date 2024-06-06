@@ -8,8 +8,6 @@ Leaderboard.propTypes = {
 
 function Leaderboard(props) {
     const { users, userIds } = props;
-    console.log('users======', users)
-    console.log('userIds======', userIds)
 
     const addNumbsToUser = (user, numQanswered, numQasked, sum) => {
         return {

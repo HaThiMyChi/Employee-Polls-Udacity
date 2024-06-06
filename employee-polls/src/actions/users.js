@@ -12,14 +12,14 @@ export function addAnswerUser(authedUser, qid, answer) {
         type: ADD_ANSWER_USER,
         authedUser,
         qid,
-        answer
-    }
+        answer,
+    };
 }
 
-export function addQuestionUser(author, id) {
+export function addQuestionUser({ author, id }) {
     return {
         type: ADD_QUESTION_USER,
         author,
-        id
-    }
+        qid: id,
+    };
 }

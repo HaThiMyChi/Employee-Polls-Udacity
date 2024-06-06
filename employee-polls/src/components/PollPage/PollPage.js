@@ -4,11 +4,6 @@ import { handleAddAnswer } from "../../actions/questions";
 import "../../styles/pollpage.css";
 
 const PollPage = ({ dispatch, authSliceUser, question, author }) => {
-    console.log('authSliceUser poll', authSliceUser)
-    console.log('author poll', author)
-    console.log('questions poll', question)
-
-    console.log('dispatch poll', dispatch)
 
     const navigate = useNavigate();
 

@@ -1,4 +1,22 @@
-const { _saveQuestionAnswer } = require("./_DATA");
+const {
+    _getUsers,
+    _getQuestions,
+    _saveQuestion,
+    _saveQuestionAnswer, } = require("./_DATA");
+
+describe("_getUsers", () => {
+    it("should retrieve the users data", async () => {
+        const users = await _getUsers();
+        expect(users).toBeDefined();
+    });
+});
+
+describe("_getQuestions", () => {
+    it("should retrieve the questions data", async () => {
+        const questions = await _getQuestions();
+        expect(questions).toBeDefined();
+    });
+});
 
 describe("_saveQuestionAnswer", () => {
     it("should save a user's answer to a question", async () => {
