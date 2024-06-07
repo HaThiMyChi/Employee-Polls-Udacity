@@ -1,74 +1,89 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import configureStore from "redux-mock-store";
-import NavBar from "./NavBar";
-import { handleLogoutAuthedUser } from "../../actions/authSliceUser";
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
+import { act } from 'react';
+import NavBar from './NavBar';
+import { handleLogoutAuthedUser } from '../../actions/authSliceUser';
 
-// Mock store
-const mockStore = configureStore([]);
-const store = mockStore({
-    authSliceUser: {
-        id: "sarahedo",
-        name: "Sarah Edo",
-        avatarURL: "http://example.com/avatar.png",
-    },
-    users: {},
-});
-
-// Mock actions
-jest.mock("../../actions/authSliceUser", () => ({
-    handleLogoutAuthedUser: jest.fn(() => ({ type: "LOGOUT_USER" })),
+jest.mock('../../actions/authSliceUser', () => ({
+    handleLogoutAuthedUser: jest.fn(() => ({ type: 'LOGOUT_AUTHED_USER' })),
 }));
 
-describe("NavBar", () => {
+const mockStore = configureStore([]);
+
+describe('NavBar', () => {
+    let store;
+
     beforeEach(() => {
-        // Clear any previous mock calls
-        jest.clearAllMocks();
+        store = mockStore({
+            authSliceUser: {
+                id: 'user1',
+                name: 'John Doe',
+                avatarURL: 'http://example.com/avatar.jpg',
+            },
+            users: {
+                user1: {
+                    id: 'user1',
+                    name: 'John Doe',
+                    avatarURL: 'http://example.com/avatar.jpg',
+                },
+            },
+        });
+
+        store.dispatch = jest.fn();
     });
 
-    it("should render the component", () => {
-        const component = render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <NavBar />
-                </BrowserRouter>
-            </Provider>
-        );
+    it('should render NavBar with user information', () => {
+        act(() => {
+            render(
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <NavBar />
+                    </MemoryRouter>
+                </Provider>
+            );
+        });
 
-        expect(component).toBeDefined();
-        expect(component).toMatchSnapshot();
+        expect(screen.getByText('Home')).toBeInTheDocument();
+        expect(screen.getByText('Leaderboard')).toBeInTheDocument();
+        expect(screen.getByText('New Poll')).toBeInTheDocument();
+        expect(screen.getByText('John Doe')).toBeInTheDocument();
+        expect(screen.getByAltText('User Avatar')).toBeInTheDocument();
     });
 
-    it("should display username and avatar of the logged-in user", () => {
-        render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <NavBar />
-                </BrowserRouter>
-            </Provider>
-        );
+    it('should handle logout on button click', () => {
+        act(() => {
+            render(
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <NavBar />
+                    </MemoryRouter>
+                </Provider>
+            );
+        });
 
-        const usernameElement = screen.getByTestId("user-information-nav");
-        expect(usernameElement).toHaveTextContent("Sarah Edo");
+        act(() => {
+            fireEvent.click(screen.getByText('Logout'));
+        });
 
-        const avatarElement = screen.getByAltText("User Avatar");
-        expect(avatarElement.src).toBe("http://example.com/avatar.png");
+        expect(store.dispatch).toHaveBeenCalledWith(handleLogoutAuthedUser());
     });
 
-    it("should call handleLogout when logout button is clicked", () => {
-        render(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <NavBar />
-                </BrowserRouter>
-            </Provider>
-        );
+    it('should navigate to home, leaderboard, and new poll on link clicks', () => {
+        act(() => {
+            render(
+                <Provider store={store}>
+                    <MemoryRouter>
+                        <NavBar />
+                    </MemoryRouter>
+                </Provider>
+            );
+        });
 
-        const logoutButton = screen.getByText("Logout");
-        fireEvent.click(logoutButton);
-
-        expect(handleLogoutAuthedUser).toHaveBeenCalledTimes(1);
+        expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute('href', '/');
+        expect(screen.getByRole('link', { name: /leaderboard/i })).toHaveAttribute('href', '/leaderboard');
+        expect(screen.getByRole('link', { name: /new poll/i })).toHaveAttribute('href', '/add');
     });
 });
