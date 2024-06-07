@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 Leaderboard.propTypes = {
-
+    users: PropTypes.object.isRequired,
+    userIds: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 function Leaderboard(props) {
@@ -34,7 +35,6 @@ function Leaderboard(props) {
 
     const sortedArr = usersArr.sort((a, b) => b.sum - a.sum)
 
-
     return (
         <div>
             <h1 className='font-bold mt-0 text-3xl text-center'>Leaderboard</h1>
@@ -53,22 +53,23 @@ function Leaderboard(props) {
 
                 <tbody className='bg-white'>
                     {
-                        usersArr.map((user) => (
+                        sortedArr.map((user) => (
                             <tr key={user.id}>
-                                <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>
-                                    <span className='font-bold'>{user.name}</span><br />
-                                    <span className='text-sm text-slate-500'>{user.id}</span>
+                                <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black flex items-center'>
+                                    <img src={user.avatarURL} alt={`${user.name}'s avatar`} className='w-10 h-10 rounded-full mr-4' />
+                                    <div>
+                                        <span className='font-bold'>{user.name}</span><br />
+                                        <span className='text-sm text-slate-500'>{user.id}</span>
+                                    </div>
                                 </td>
                                 <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>{user.numQanswered}</td>
                                 <td className='border-b border-r border-slate-100 dark:border-slate-700 p-4 pl-8 text-black'>{user.numQasked}</td>
                             </tr>
                         ))
                     }
-
                 </tbody>
             </table>
         </div>
-
     );
 }
 

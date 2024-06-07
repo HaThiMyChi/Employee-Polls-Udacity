@@ -10,7 +10,16 @@ Navigate to the project directory:
 cd Employee-Polls-Udacity
 
 Install dependencies:
-npm install
+npm install or yarn install
+
+## Usage
+
+To launch the application:
+
+1. In the project directory, you can run:
+   npm start or yarn start
+
+2. Open your browser and navigate to `http://localhost:3000` to view the application.
 
 Testing (Jest):
 To test the app using Jest, type:

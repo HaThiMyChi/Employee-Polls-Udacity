@@ -29,11 +29,6 @@ function App(props) {
         <Route path={QuestionUrl} element={<PrivateRoute><PollPage /></PrivateRoute>} />
         <Route path={NewQuestionUrl} element={<PrivateRoute><NewPoll /></PrivateRoute>} />
         <Route path={Error404} exact element={<PageNotFound />} />
-        {/* <Route path="/new" exact element={<NewPoll />} />
-        <Route path="/pollpage" exact element={<PollPage />} />
-        <Route path="/leaderboard" exact element={<Leaderboard />} />
-        <Route path="/dashboard" exact element={<Dashboard />} />
-        <Route path="/stick" exact element={<StickNote />} /> */}
       </Routes>
     </div>
   );
