@@ -1,13 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 
 UserCard.propTypes = {
-
+    question: PropTypes.object.isRequired,
+    author: PropTypes.object.isRequired,
+    error: PropTypes.string, // Prop để nhận thông báo lỗi từ Redux store
 };
 
 function UserCard(props) {
-    const { question, author } = props;
+    const { question, author, error } = props;
+
+    // Xử lý lỗi: Nếu có lỗi, hiển thị thông báo lỗi
+    if (error) {
+        return <div className="text-red-500">Error: {error}</div>;
+    }
 
     return (
         <Link to={'questions/' + question.id}>
@@ -24,8 +32,11 @@ function UserCard(props) {
                 </div>
             </div>
         </Link>
-
     );
 }
 
-export default UserCard;
+const mapStateToProps = (state) => ({
+    error: state.error, // Lấy thông báo lỗi từ Redux store
+});
+
+export default connect(mapStateToProps)(UserCard);

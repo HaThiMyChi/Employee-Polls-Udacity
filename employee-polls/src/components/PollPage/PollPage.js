@@ -52,7 +52,7 @@ const PollPage = ({ dispatch, authSliceUser, question, author }) => {
             </div>
 
             <div className="grid grid-cols-2 gap-4 mt-4">
-                <button className={"p-2 rounded-xl bg-zinc-100 hover:shadow-xl transition" + (userChoseOptionOne ? "bg-[rgb(66, 213, 204)]" : "")} onClick={hanldeOptionOne} disabled={notAnsweredYet} >
+                <button className={"p-2 rounded-xl bg-zinc-100 hover:shadow-xl transition " + (userChoseOptionOne ? "bg-cyan-500" : "")} onClick={hanldeOptionOne} disabled={notAnsweredYet} >
                     <div className={userChoseOptionOne ? "chosen" : ""}>
                         <p className="font-bold mb-2">{question.optionOne.text}</p>
                         {!notAnsweredYet && <p className="underline underline-offset-4 mb-3">Click</p>}
@@ -61,14 +61,17 @@ const PollPage = ({ dispatch, authSliceUser, question, author }) => {
                 </button>
 
                 <button onClick={handleOptionTwo} disabled={notAnsweredYet}
-                    className={"p-2 rounded-xl bg-zinc-100 hover:shadow-xl transition " + (userChoseOptionTwo ? "bg-[rgb(66, 213, 204)]" : "")}>
-                    <p className="font-bold mb-2">{question.optionTwo.text}</p>
-                    {!notAnsweredYet &&
-                        <p className="underline underline-offset-4 mb-3">Click</p>
-                    }
-                    {notAnsweredYet &&
-                        <p className="text-xs">Votes: {question.optionTwo.votes.length} ({calcPercentageVoted("optionTwo", question)})</p>
-                    }
+                    className={"p-2 rounded-xl bg-zinc-100 hover:shadow-xl transition " + (userChoseOptionTwo ? "bg-cyan-500" : "")}>
+                    <div className={userChoseOptionTwo ? "chosen" : ""}>
+                        <p className="font-bold mb-2">{question.optionTwo.text}</p>
+                        {!notAnsweredYet &&
+                            <p className="underline underline-offset-4 mb-3">Click</p>
+                        }
+                        {notAnsweredYet &&
+                            <p className="text-xs">Votes: {question.optionTwo.votes.length} ({calcPercentageVoted("optionTwo", question)})</p>
+                        }
+                    </div>
+
                 </button>
             </div>
         </div>
